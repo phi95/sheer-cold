@@ -32,9 +32,11 @@ backgroundGraph = Label(root, image = backgroundPicGraph)
 
 
 def setCurrentTemp(x):
+	global currentTemp
 	currentTemp = x
 
-def getCurrentTemp(): 
+def getCurrentTemp():
+	global currentTemp
 	return currentTemp
 
 def update():
@@ -45,8 +47,7 @@ def update():
 		line = line.decode('utf-8')
 		global checkTemp
 		if checkTemp:
-			global currentTemp, setTemp
-			if currentTemp < setTemp:
+			if getCurrentTemp() < setTemp:
 				playAlarm()
 				checkTemp = False
 		if '&' in line:
@@ -55,21 +56,21 @@ def update():
 			line = int(line)
 			print("Temperature is now" + line + ".")
 			root.update()
-		else:
-			setCurrentTemp(int(float(line)))
-			
+		else:			
 			#update graph
 			count += 1
 			update_graph(count)
 
 			#update the temperature display
 			line = line.replace('\n', '').replace('\r', '')
+			setCurrentTemp(float(line))
+
 			var.set(line + degreesText)
 			root.update()
 			sleep(1)
 
 def set_temperature():
-	setTemp = int(float(entry.get()))
+	setTemp = entry.get()
 	checkTemp = True
 	print("Setting temperature to" + setTemp + "...")
 	setTemp = setTemp.encode('utf-8')
