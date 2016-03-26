@@ -6,6 +6,7 @@ from time import sleep
 root = Tk()
 root.minsize(300,300)
 root.geometry("500x500")
+root.title("Sheer Cold")
 
 var = StringVar()
 degreesText = " F"
@@ -17,6 +18,13 @@ def update():
 		root.update()
 		sleep(1)
 
+#Setting the logo
+logoPic = PhotoImage(file = "images/logo.gif")
+logo = Label(root, image=logoPic)
+logo.image = logoPic #reference
+logo.pack()
+
+#Label that prints the degrees
 label = Label(root, textvariable = var)
 label.pack()
 
