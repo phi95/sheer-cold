@@ -16,15 +16,22 @@ def update():
 	while True:
 		line = arduinoSerialData.readline()
 		line = line.decode('utf-8')
-		var.set(line + degreesText)
-		root.update()
-		sleep(1)
+		if '&' in line:
+			line = str(line)
+			line = line.replace("&","")
+			line = int(line)
+			print("Temperature set to", str(line) + ".")
+			root.update()
+		else:
+			var.set(line + degreesText)
+			root.update()
+			sleep(1)
 
 def set_temperature():
 	temp = entry_1.get()
+	print("Setting temperature to", temp + ".")
 	temp = temp.encode('utf-8')
 	arduinoSerialData.write(temp)
-	print("Temperature set to", temp)
 
 #Setting the logo
 #backgroundPic = PhotoImage(file = "images/mblue.gif")
