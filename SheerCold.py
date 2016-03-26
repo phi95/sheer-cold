@@ -10,9 +10,9 @@ graphOn = False
 
 var = StringVar()
 degreesText = " F"
-arduinoSerialData = serial.Serial('/dev/cu.usbmodemFD121', 9600) #object...tell it which COMPORT are you on?
+#arduinoSerialData = serial.Serial('/dev/cu.usbmodemFD121', 9600) #object...tell it which COMPORT are you on?
 #arduinoSerialData = serial.Serial('COM4', 9600) #object...tell it which COMPORT are you on?
-#arduinoSerialData = serial.Serial('/dev/cu.usbmodem641', 9600)
+arduinoSerialData = serial.Serial('/dev/cu.usbmodem641', 9600)
 
 def update():
 	while True:
@@ -28,6 +28,7 @@ def update():
 			if graphOn == False:
 				pass	
 				#graph.mainloop()
+			line = line.replace('\n', ' ').replace('\r', '')
 			var.set(line + degreesText)
 			root.update()
 			sleep(1)
