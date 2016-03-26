@@ -20,7 +20,7 @@ def update():
 			line = str(line)
 			line = line.replace("&","")
 			line = int(line)
-			print("Temperature set to", str(line) + ".")
+			print("Temperature is now", str(line) + ".")
 			root.update()
 		else:
 			var.set(line + degreesText)
@@ -29,7 +29,7 @@ def update():
 
 def set_temperature():
 	temp = entry_1.get()
-	print("Setting temperature to", temp + ".")
+	print("Setting temperature to", temp + "...")
 	temp = temp.encode('utf-8')
 	arduinoSerialData.write(temp)
 
