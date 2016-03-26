@@ -10,11 +10,27 @@ graphOn = False
 
 var = StringVar()
 degreesText = " F"
-arduinoSerialData = serial.Serial('/dev/cu.usbmodemFD121', 9600) #object...tell it which COMPORT are you on?
+#arduinoSerialData = serial.Serial('/dev/cu.usbmodemFD121', 9600) #object...tell it which COMPORT are you on?
 #arduinoSerialData = serial.Serial('COM4', 9600) #object...tell it which COMPORT are you on?
-#arduinoSerialData = serial.Serial('/dev/cu.usbmodem641', 9600)
+arduinoSerialData = serial.Serial('/dev/cu.usbmodem641', 9600)
+
+
+#initialize the graph
+graph.configure(background="light blue")
+graphlabel = Label(graph, text="graph text")
+graphlabel.pack()
+set_temp = 0
+'''
+backgroundPicGraph = PhotoImage(file = "images/graphBlue.gif")
+backgroundGraph = Label(root, image = backgroundPicGraph)
+'''
+#backgroundGraph.image = backgroundPicGraph #reference
+#backgroundGraph.pack()
+
 
 def update():
+
+	count = 0
 	while True:
 		line = arduinoSerialData.readline()
 		line = line.decode('utf-8')
@@ -22,13 +38,20 @@ def update():
 			line = str(line)
 			line = line.replace("&","")
 			line = int(line)
+			global set_temp
+			set_temp = line
 			print("Temperature is now", str(line) + ".")
 			root.update()
 		else:
-			if graphOn == False:
-				pass	
-				#graph.mainloop()
+			#update graph
+			count += 1
+			update_graph(count)
+
+			#update the temperature display
 			line = line.replace('\n', ' ').replace('\r', '')
+			global set_temp
+			if (int(line) == set_temp):
+				print('Limit reached')
 			var.set(line + degreesText)
 			root.update()
 			sleep(1)
@@ -38,6 +61,11 @@ def set_temperature():
 	print("Setting temperature to", temp + "...")
 	temp = temp.encode('utf-8')
 	arduinoSerialData.write(temp)
+
+def update_graph(count):
+	graphlabel = Label(graph, text="graph text" + str(count))
+	graphlabel.pack()
+
 
 
 #background
@@ -54,20 +82,19 @@ logo.place(x = 0, y = 0)
 
 #Label that prints the degrees
 label = Label(root, textvariable = var, fg = 'white', bg = 'black', font = ("Times", 40))
-var.set("0.0 F") #initial temp
-label.place(relx=.5, anchor = CENTER, y = 140)
+label.place(relx=.5, anchor = CENTER, y = 130)
 
 #Set temp label
 setTempText = Label(root, text="Set Temperature: ", fg = 'white', bg = 'black', font = ("Times", 15))
-setTempText.place(relx = .28, anchor = CENTER, y = 200)
+setTempText.place(relx = .28, anchor = CENTER, y = 250)
 
 #create entry form
 entry = Entry(root, bg = 'black', fg = 'white', font = ("Times", 15))
-entry.place(relx = .6, anchor = CENTER, y = 200)
+entry.place(relx = .6, anchor = CENTER, y = 250)
 
 button = Button(root, text="Enter", command=set_temperature)
 button.configure(bg = 'black')
-button.place(relx = .5, anchor = CENTER, y = 250)
+button.place(relx = .5, anchor = CENTER, y = 300)
 
 root.after(1,update)
 root.mainloop()
