@@ -8,13 +8,11 @@ root = tk.Tk()
 
 canvas = tk.Canvas(root, width = 500, height = 500)
 canvas.pack()
-#root.minsize(300,300)
-#root.geometry("500x500")
 
 var = StringVar()
 degreesText = " F"
-#arduinoSerialData = serial.Serial('/dev/cu.usbmodemFD121', 9600) #object...tell it which COMPORT are you on?
-arduinoSerialData = serial.Serial('COM4', 9600) #object...tell it which COMPORT are you on?
+arduinoSerialData = serial.Serial('/dev/cu.usbmodemFD121', 9600) #object...tell it which COMPORT are you on?
+#arduinoSerialData = serial.Serial('COM4', 9600) #object...tell it which COMPORT are you on?
 
 def update():
 	while True:
@@ -37,12 +35,6 @@ def set_temperature():
 	temp = temp.encode('utf-8')
 	arduinoSerialData.write(temp)
 
-#Setting the logo
-backgroundPic = PhotoImage(file = "images/mblue_converted.gif")
-canvas.create_image(250,250, image = backgroundPic)
-#background = Label(root, image = backgroundPic, bd = 0)
-
-
 
 #creates the top frame
 topFrame = Frame(root)
@@ -52,6 +44,10 @@ topFrame.pack(side = TOP)
 #creates the bottom frame
 bottomFrame = Frame(root)
 bottomFrame.pack(side=BOTTOM)
+
+#background
+backgroundPic = PhotoImage(file = "images/mblue_converted.gif")
+canvas.create_image(250,250, image = backgroundPic)
 
 #Setting the logo
 logoPic = PhotoImage(file = "images/logo.gif")
@@ -63,7 +59,7 @@ logo.pack(side=TOP)
 label = Label(topFrame, textvariable = var)
 label.pack(side=BOTTOM)
 
-#create label
+#Set temp label
 label_1 = Label(bottomFrame, text="Set Temperature")
 #create entry form
 entry_1 = Entry(bottomFrame)
