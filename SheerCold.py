@@ -3,10 +3,14 @@ import serial #Import Serial Library
 from tkinter import *
 import tkinter as tk
 from time import sleep
+import simpleaudio as sa
 
 root = tk.Tk()
 graph = tk.Tk()
 graphOn = False
+currentTemp = 0
+setTemp = 0
+checkTemp = False
 
 var = StringVar()
 degreesText = " F"
@@ -14,10 +18,20 @@ arduinoSerialData = serial.Serial('/dev/cu.usbmodemFD121', 9600) #object...tell 
 #arduinoSerialData = serial.Serial('COM4', 9600) #object...tell it which COMPORT are you on?
 #arduinoSerialData = serial.Serial('/dev/cu.usbmodem641', 9600)
 
+def setCurrentTemp(x):
+	currentTemp = x
+
+def getCurrentTemp(): 
+	return currentTemp
+
 def update():
 	while True:
 		line = arduinoSerialData.readline()
 		line = line.decode('utf-8')
+		if checkTemp:
+			if currentTemp < setTemp:
+				playAlarm()
+				checkTemp = False
 		if '&' in line:
 			line = str(line)
 			line = line.replace("&","")
@@ -28,17 +42,23 @@ def update():
 			if graphOn == False:
 				pass	
 				#graph.mainloop()
-			line = line.replace('\n', ' ').replace('\r', '')
+			line = line.replace('\n', '').replace('\r', '')
+			setCurrentTemp(int(float(line)))
 			var.set(line + degreesText)
 			root.update()
 			sleep(1)
 
 def set_temperature():
-	temp = entry.get()
-	print("Setting temperature to", temp + "...")
-	temp = temp.encode('utf-8')
-	arduinoSerialData.write(temp)
+	setTemp = int(float(entry.get()))
+	checkTemp = True
+	print("Setting temperature to", setTemp + "...")
+	setTemp = setTemp.encode('utf-8')
+	arduinoSerialData.write(setTemp)
 
+def playAlarm():
+    wave_obj = sa.WaveObject.from_wave_file("beep.wav")
+    play_obj = wave_obj.play()
+    play_obj.wait_done()
 
 #background
 backgroundPic = PhotoImage(file = "images/mblue.gif")
