@@ -10,9 +10,9 @@ graphOn = False
 
 var = StringVar()
 degreesText = " F"
-#arduinoSerialData = serial.Serial('/dev/cu.usbmodemFD121', 9600) #object...tell it which COMPORT are you on?
+arduinoSerialData = serial.Serial('/dev/cu.usbmodemFD121', 9600) #object...tell it which COMPORT are you on?
 #arduinoSerialData = serial.Serial('COM4', 9600) #object...tell it which COMPORT are you on?
-arduinoSerialData = serial.Serial('/dev/cu.usbmodem641', 9600)
+#arduinoSerialData = serial.Serial('/dev/cu.usbmodem641', 9600)
 
 def update():
 	while True:
@@ -54,19 +54,20 @@ logo.place(x = 0, y = 0)
 
 #Label that prints the degrees
 label = Label(root, textvariable = var, fg = 'white', bg = 'black', font = ("Times", 40))
-label.place(relx=.5, anchor = CENTER, y = 130)
+var.set("0.0 F") #initial temp
+label.place(relx=.5, anchor = CENTER, y = 140)
 
 #Set temp label
 setTempText = Label(root, text="Set Temperature: ", fg = 'white', bg = 'black', font = ("Times", 15))
-setTempText.place(relx = .28, anchor = CENTER, y = 250)
+setTempText.place(relx = .28, anchor = CENTER, y = 200)
 
 #create entry form
 entry = Entry(root, bg = 'black', fg = 'white', font = ("Times", 15))
-entry.place(relx = .6, anchor = CENTER, y = 250)
+entry.place(relx = .6, anchor = CENTER, y = 200)
 
 button = Button(root, text="Enter", command=set_temperature)
 button.configure(bg = 'black')
-button.place(relx = .5, anchor = CENTER, y = 300)
+button.place(relx = .5, anchor = CENTER, y = 250)
 
 root.after(1,update)
 root.mainloop()
