@@ -8,14 +8,11 @@ root = tk.Tk()
 graph = tk.Tk()
 graphOn = False
 
-#canvas = tk.Canvas(root, width = 500, height = 500)
-#canvas.pack()
-
 var = StringVar()
 degreesText = " F"
-#arduinoSerialData = serial.Serial('/dev/cu.usbmodemFD121', 9600) #object...tell it which COMPORT are you on?
+arduinoSerialData = serial.Serial('/dev/cu.usbmodemFD121', 9600) #object...tell it which COMPORT are you on?
 #arduinoSerialData = serial.Serial('COM4', 9600) #object...tell it which COMPORT are you on?
-arduinoSerialData = serial.Serial('/dev/cu.usbmodem641', 9600)
+#arduinoSerialData = serial.Serial('/dev/cu.usbmodem641', 9600)
 
 def update():
 	while True:
@@ -29,56 +26,46 @@ def update():
 			root.update()
 		else:
 			if graphOn == False:
-				
-				graph.mainloop()
+				pass	
+				#graph.mainloop()
 			var.set(line + degreesText)
 			root.update()
 			sleep(1)
 
 def set_temperature():
-	temp = entry_1.get()
+	temp = entry.get()
 	print("Setting temperature to", temp + "...")
 	temp = temp.encode('utf-8')
 	arduinoSerialData.write(temp)
 
 
-#creates the top frame
-topFrame = Frame(root)
-topFrame.pack(side = TOP)
-
-
-#creates the bottom frame
-bottomFrame = Frame(root)
-bottomFrame.pack(side=BOTTOM)
-
 #background
 backgroundPic = PhotoImage(file = "images/mblue.gif")
-background = Label(topFrame, image = backgroundPic)
+background = Label(root, image = backgroundPic)
 background.image = backgroundPic #reference
-background.pack(side=TOP)
-#canvas.create_image(250,250, image = backgroundPic)
+background.pack()
 
 #Setting the logo
 logoPic = PhotoImage(file = "images/logo.gif")
-logo = Label(topFrame, image=logoPic)
+logo = Label(root, image=logoPic)
 logo.image = logoPic #reference
-logo.pack(side=TOP)
+logo.place(x = 0, y = 0)
 
 #Label that prints the degrees
-label = Label(topFrame, textvariable = var)
-label.pack(side=BOTTOM)
+label = Label(root, textvariable = var, fg = 'white', bg = 'black', font = ("Times", 40))
+label.place(relx=.5, anchor = CENTER, y = 130)
 
 #Set temp label
-label_1 = Label(bottomFrame, text="Set Temperature")
+setTempText = Label(root, text="Set Temperature: ", fg = 'white', bg = 'black', font = ("Times", 15))
+setTempText.place(relx = .28, anchor = CENTER, y = 250)
+
 #create entry form
-entry_1 = Entry(bottomFrame)
-#bind label to the frame
-label_1.grid(row=0, column=0)
-#bind entry form to the frame
-entry_1.grid(row=1, column=0)
+entry = Entry(root, bg = 'black', fg = 'white', font = ("Times", 15))
+entry.place(relx = .6, anchor = CENTER, y = 250)
 
-button = Button(bottomFrame, text="Enter", fg="red", command=set_temperature)
-button.grid(row=2, column=0)
+button = Button(root, text="Enter", command=set_temperature)
+button.configure(bg = 'black')
+button.place(relx = .5, anchor = CENTER, y = 300)
 
-#root.after(1,update)
+root.after(1,update)
 root.mainloop()
