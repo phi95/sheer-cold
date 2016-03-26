@@ -40,7 +40,6 @@ def set_temperature():
 topFrame = Frame(root)
 topFrame.pack(side = TOP)
 
-
 #creates the bottom frame
 bottomFrame = Frame(root)
 bottomFrame.pack(side=BOTTOM)
