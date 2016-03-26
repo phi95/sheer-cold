@@ -9,30 +9,21 @@ root.geometry("500x500")
 
 var = StringVar()
 degreesText = " F"
-arduinoSerialData = serial.Serial('/dev/cu.usbmodemFD121', 9600) #object...tell it which COMPORT are you on?
-#arduinoSerialData = serial.Serial('/dev/cu.usbmodem641', 9600) #object...tell it which COMPORT are you on?
+#arduinoSerialData = serial.Serial('/dev/cu.usbmodemFD121', 9600) #object...tell it which COMPORT are you on?
+arduinoSerialData = serial.Serial('/dev/cu.usbmodem641', 9600) #object...tell it which COMPORT are you on?
 
 def update():
 	while True:
 		line = arduinoSerialData.readline()
 		line = line.decode('utf-8')
 		var.set(line + degreesText)
-		topFrame.update()
+		root.update()
 		sleep(1)
 
 #Setting the logo
 #backgroundPic = PhotoImage(file = "images/mblue.gif")
 #root.configure(background = backgroundPic)
 
-#Setting the logo
-logoPic = PhotoImage(file = "images/logo.gif")
-logo = Label(root, image=logoPic)
-logo.image = logoPic #reference
-logo.pack()
-
-#Label that prints the degrees
-label = Label(root, textvariable = var)
-label.pack()
 
 #creates the top frame
 topFrame = Frame(root)
@@ -41,6 +32,16 @@ topFrame.pack()
 #creates the bottom frame
 bottomFrame = Frame(root)
 bottomFrame.pack(side=BOTTOM)
+
+#Setting the logo
+logoPic = PhotoImage(file = "images/logo.gif")
+logo = Label(topFrame, image=logoPic)
+logo.image = logoPic #reference
+logo.pack(side=TOP)
+
+#Label that prints the degrees
+label = Label(topFrame, textvariable = var)
+label.pack(side=BOTTOM)
 
 #create label
 label_1 = Label(bottomFrame, text="Set Temperature")
