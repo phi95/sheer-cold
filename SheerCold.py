@@ -1,16 +1,20 @@
 #!/usr/bin/python
 import serial #Import Serial Library
 from tkinter import *
+import tkinter as tk
 from time import sleep
 
-root = Tk()
-root.minsize(300,300)
-root.geometry("500x500")
+root = tk.Tk()
+
+canvas = tk.Canvas(root, width = 500, height = 500)
+canvas.pack()
+#root.minsize(300,300)
+#root.geometry("500x500")
 
 var = StringVar()
 degreesText = " F"
 #arduinoSerialData = serial.Serial('/dev/cu.usbmodemFD121', 9600) #object...tell it which COMPORT are you on?
-arduinoSerialData = serial.Serial('/dev/cu.usbmodem641', 9600) #object...tell it which COMPORT are you on?
+arduinoSerialData = serial.Serial('COM4', 9600) #object...tell it which COMPORT are you on?
 
 def update():
 	while True:
@@ -34,13 +38,16 @@ def set_temperature():
 	arduinoSerialData.write(temp)
 
 #Setting the logo
-#backgroundPic = PhotoImage(file = "images/mblue.gif")
-#root.configure(background = backgroundPic)
+backgroundPic = PhotoImage(file = "images/mblue_converted.gif")
+canvas.create_image(250,250, image = backgroundPic)
+#background = Label(root, image = backgroundPic, bd = 0)
+
 
 
 #creates the top frame
 topFrame = Frame(root)
-topFrame.pack()
+topFrame.pack(side = TOP)
+
 
 #creates the bottom frame
 bottomFrame = Frame(root)
