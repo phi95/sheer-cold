@@ -53,9 +53,7 @@ def update():
 			line = str(line)
 			line = line.replace("&","")
 			line = int(line)
-			global set_temp
-			set_temp = line
-			print("Temperature is now", str(line) + ".")
+			print("Temperature is now" + line + ".")
 			root.update()
 		else:
 			setCurrentTemp(int(float(line)))
@@ -73,7 +71,7 @@ def update():
 def set_temperature():
 	setTemp = int(float(entry.get()))
 	checkTemp = True
-	print("Setting temperature to", setTemp + "...")
+	print("Setting temperature to" + setTemp + "...")
 	setTemp = setTemp.encode('utf-8')
 	arduinoSerialData.write(setTemp)
 
