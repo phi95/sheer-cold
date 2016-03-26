@@ -7,6 +7,7 @@ int thermo_vcc_pin = 6;
 int thermo_so_pin  = 5;
 int thermo_cs_pin  = 4;
 int thermo_sck_pin = 3;
+String reader;
   
 MAX6675 thermocouple(thermo_sck_pin, thermo_cs_pin, thermo_so_pin);
   
@@ -20,6 +21,15 @@ void setup() {
 }
 
 void loop() {
+  
+  //while (Serial.available()){
+    if (Serial.available() > 0){
+      char c = Serial.read();
+      reader += c;
+      Serial.println("Reader " + reader);
+    };
+  //}
+  
   Serial.println(thermocouple.readFahrenheit()-5);
   delay(1000);
 }

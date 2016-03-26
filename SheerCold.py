@@ -22,6 +22,8 @@ def update():
 
 def set_temperature():
 	temp = entry_1.get()
+	temp = temp.encode('utf-8')
+	arduinoSerialData.write(temp)
 	print("Temperature set to", temp)
 
 #Setting the logo
