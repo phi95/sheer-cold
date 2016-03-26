@@ -14,9 +14,9 @@ checkTemp = False
 
 var = StringVar()
 degreesText = " F"
-arduinoSerialData = serial.Serial('/dev/cu.usbmodemFD121', 9600) #object...tell it which COMPORT are you on?
+#arduinoSerialData = serial.Serial('/dev/cu.usbmodemFD121', 9600) #object...tell it which COMPORT are you on?
 #arduinoSerialData = serial.Serial('COM4', 9600) #object...tell it which COMPORT are you on?
-#arduinoSerialData = serial.Serial('/dev/cu.usbmodem641', 9600)
+arduinoSerialData = serial.Serial('/dev/cu.usbmodem641', 9600)
 
 
 #initialize the graph
@@ -34,7 +34,7 @@ backgroundGraph = Label(root, image = backgroundPicGraph)
 def setCurrentTemp(x):
 	currentTemp = x
 
-def getCurrentTemp(): 
+def getCurrentTemp():
 	return currentTemp
 
 def update():
@@ -53,11 +53,15 @@ def update():
 			line = str(line)
 			line = line.replace("&","")
 			line = int(line)
-			print("Temperature is now" + line + ".")
+			'''
+			global set_temp
+			set_temp = line
+			'''
+			print("Temperature is now", str(line) + ".")
 			root.update()
 		else:
-			setCurrentTemp(int(float(line)))
-			
+			setCurrentTemp(str(line))
+
 			#update graph
 			count += 1
 			update_graph(count)
@@ -69,9 +73,9 @@ def update():
 			sleep(1)
 
 def set_temperature():
-	setTemp = int(float(entry.get()))
+	setTemp = entry.get()
 	checkTemp = True
-	print("Setting temperature to" + setTemp + "...")
+	print("Setting temperature to", setTemp , "...")
 	setTemp = setTemp.encode('utf-8')
 	arduinoSerialData.write(setTemp)
 
