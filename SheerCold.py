@@ -20,6 +20,10 @@ def update():
 		root.update()
 		sleep(1)
 
+def set_temperature():
+	temp = entry_1.get()
+	print("Temperature set to", temp)
+
 #Setting the logo
 #backgroundPic = PhotoImage(file = "images/mblue.gif")
 #root.configure(background = backgroundPic)
@@ -51,6 +55,9 @@ entry_1 = Entry(bottomFrame)
 label_1.grid(row=0, column=0)
 #bind entry form to the frame
 entry_1.grid(row=1, column=0)
+
+button = Button(bottomFrame, text="Enter", fg="red", command=set_temperature)
+button.grid(row=2, column=0)
 
 root.after(1,update)
 root.mainloop()
