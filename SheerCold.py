@@ -5,14 +5,17 @@ import tkinter as tk
 from time import sleep
 
 root = tk.Tk()
+graph = tk.Tk()
+graphOn = False
 
 canvas = tk.Canvas(root, width = 500, height = 500)
 canvas.pack()
 
 var = StringVar()
 degreesText = " F"
-arduinoSerialData = serial.Serial('/dev/cu.usbmodemFD121', 9600) #object...tell it which COMPORT are you on?
+#arduinoSerialData = serial.Serial('/dev/cu.usbmodemFD121', 9600) #object...tell it which COMPORT are you on?
 #arduinoSerialData = serial.Serial('COM4', 9600) #object...tell it which COMPORT are you on?
+arduinoSerialData = serial.Serial('/dev/cu.usbmodem641', 9600)
 
 def update():
 	while True:
@@ -25,6 +28,9 @@ def update():
 			print("Temperature is now", str(line) + ".")
 			root.update()
 		else:
+			if graphOn == False:
+				
+				graph.mainloop()
 			var.set(line + degreesText)
 			root.update()
 			sleep(1)
