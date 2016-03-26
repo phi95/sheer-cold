@@ -18,6 +18,7 @@ def update():
 		root.update()
 		sleep(1)
 
+
 #Setting the logo
 logoPic = PhotoImage(file = "images/logo.gif")
 logo = Label(root, image=logoPic)
