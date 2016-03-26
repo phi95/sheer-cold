@@ -6,12 +6,12 @@ from time import sleep
 
 root = tk.Tk()
 
-canvas = tk.Canvas(root, width = 500, height = 500)
-canvas.pack()
+#canvas = tk.Canvas(root, width = 500, height = 500)
+#canvas.pack()
 
 var = StringVar()
 degreesText = " F"
-arduinoSerialData = serial.Serial('/dev/cu.usbmodemFD121', 9600) #object...tell it which COMPORT are you on?
+#arduinoSerialData = serial.Serial('/dev/cu.usbmodemFD121', 9600) #object...tell it which COMPORT are you on?
 #arduinoSerialData = serial.Serial('COM4', 9600) #object...tell it which COMPORT are you on?
 
 def update():
@@ -40,13 +40,17 @@ def set_temperature():
 topFrame = Frame(root)
 topFrame.pack(side = TOP)
 
+
 #creates the bottom frame
 bottomFrame = Frame(root)
 bottomFrame.pack(side=BOTTOM)
 
 #background
-backgroundPic = PhotoImage(file = "images/mblue_converted.gif")
-canvas.create_image(250,250, image = backgroundPic)
+backgroundPic = PhotoImage(file = "images/mblue.gif")
+background = Label(topFrame, image = backgroundPic)
+background.image = backgroundPic #reference
+background.pack(side=TOP)
+#canvas.create_image(250,250, image = backgroundPic)
 
 #Setting the logo
 logoPic = PhotoImage(file = "images/logo.gif")
@@ -70,5 +74,5 @@ entry_1.grid(row=1, column=0)
 button = Button(bottomFrame, text="Enter", fg="red", command=set_temperature)
 button.grid(row=2, column=0)
 
-root.after(1,update)
+#root.after(1,update)
 root.mainloop()
