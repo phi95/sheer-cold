@@ -39,6 +39,14 @@ def getCurrentTemp():
 	global currentTemp
 	return currentTemp
 
+def setSetTemp(x):
+	global setTemp
+	setTemp = x
+
+def getSetTemp():
+	global setTemp
+	return setTemp
+
 def update():
 
 	count = 0
@@ -47,16 +55,16 @@ def update():
 		line = line.decode('utf-8')
 		global checkTemp
 		if checkTemp:
-			if getCurrentTemp() < setTemp:
+			if getCurrentTemp() < getSetTemp():
 				playAlarm()
 				checkTemp = False
 		if '&' in line:
 			line = str(line)
 			line = line.replace("&","")
 			line = int(line)
-			print("Temperature is now" + line + ".")
+			print("Temperature is now", str(line) + ".")
 			root.update()
-		else:			
+		else:
 			#update graph
 			count += 1
 			update_graph(count)
@@ -64,17 +72,18 @@ def update():
 			#update the temperature display
 			line = line.replace('\n', '').replace('\r', '')
 			setCurrentTemp(float(line))
-
 			var.set(line + degreesText)
 			root.update()
 			sleep(1)
 
 def set_temperature():
+	global checkTemp
 	setTemp = entry.get()
 	checkTemp = True
-	print("Setting temperature to" + setTemp + "...")
+	print("Setting temperature to", setTemp , "...")
 	setTemp = setTemp.encode('utf-8')
 	arduinoSerialData.write(setTemp)
+	setSetTemp(float(setTemp))
 
 def playAlarm():
     wave_obj = sa.WaveObject.from_wave_file("beep.wav")
