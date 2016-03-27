@@ -66,13 +66,14 @@ def update():
 		if checkTemp:
 			if getCurrentTemp() < getSetTemp():
 				playAlarm()
+				print("The temperature is below", getSetTemp(), "degrees Fahrenheit. ")
 				checkTemp = False
 
 		if '&' in line:
 			line = str(line)
 			line = line.replace("&","")
 			line = int(line)
-			print("Temperature is now", str(line) + ".")
+			print("Setting temperature to below", str(line), "degrees Fahrenheit...")
 			root.update()
 
 		else:
@@ -111,7 +112,7 @@ def set_temperature():
 	global checkTemp
 	setTemp = entry.get()
 	checkTemp = True
-	print("Setting temperature to", setTemp , "...")
+	#print("Setting temperature to", setTemp , "...")
 	setTemp = setTemp.encode('utf-8')
 	arduinoSerialData.write(setTemp)
 	setSetTemp(float(setTemp))
@@ -120,6 +121,7 @@ def playAlarm():
     wave_obj = sa.WaveObject.from_wave_file("beep.wav")
     play_obj = wave_obj.play()
     play_obj.wait_done()
+
 
 def quit():
 	global loop
