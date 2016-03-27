@@ -14,10 +14,10 @@ checkTemp = False
 loop = True
 
 var = StringVar()
-degreesText = " F"
+degreesText = " C"
 #arduinoSerialData = serial.Serial('/dev/cu.usbmodemFD121', 9600) #object...tell it which COMPORT are you on?
 #arduinoSerialData = serial.Serial('COM4', 9600) #object...tell it which COMPORT are you on?
-arduinoSerialData = serial.Serial('/dev/cu.usbmodem641', 9600)
+arduinoSerialData = serial.Serial('/dev/cu.usbmodem411', 9600)
 
 
 #initialize the graph
@@ -66,14 +66,14 @@ def update():
 		if checkTemp:
 			if getCurrentTemp() < getSetTemp():
 				playAlarm()
-				print("The temperature is below", getSetTemp(), "degrees Fahrenheit. ")
+				print("The temperature is below", getSetTemp(), "degrees Celsius. ")
 				checkTemp = False
 
 		if '&' in line:
 			line = str(line)
 			line = line.replace("&","")
 			line = int(line)
-			print("Setting temperature to below", str(line), "degrees Fahrenheit...")
+			print("Setting temperature to below", str(line), "degrees Celsius...")
 			root.update()
 
 		else:

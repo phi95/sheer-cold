@@ -32,7 +32,7 @@ def animate(i):
             xs.append(x)
             ys.append(y)
     ax1.clear()
-    ax1.set_ylabel("Temperature (F)")
+    ax1.set_ylabel("Temperature (C)")
     ax1.set_title("Drink Temperatures")
     ax1.set_xlabel("Time (s)")
     ax1.plot(xs,ys)
