@@ -5,8 +5,8 @@ import tkinter as tk
 from time import sleep
 import simpleaudio as sa
 
+
 root = tk.Tk()
-graph = tk.Tk()
 graphOn = False
 currentTemp = 0
 setTemp = 0
@@ -14,15 +14,13 @@ checkTemp = False
 
 var = StringVar()
 degreesText = " F"
-arduinoSerialData = serial.Serial('/dev/cu.usbmodemFD121', 9600) #object...tell it which COMPORT are you on?
+#arduinoSerialData = serial.Serial('/dev/cu.usbmodemFD121', 9600) #object...tell it which COMPORT are you on?
 #arduinoSerialData = serial.Serial('COM4', 9600) #object...tell it which COMPORT are you on?
-#arduinoSerialData = serial.Serial('/dev/cu.usbmodem641', 9600)
+arduinoSerialData = serial.Serial('/dev/cu.usbmodem641', 9600)
 
 
 #initialize the graph
-graph.configure(background="light blue")
-graphlabel = Label(graph, text="graph text")
-graphlabel.pack()
+
 '''
 backgroundPicGraph = PhotoImage(file = "images/graphBlue.gif")
 backgroundGraph = Label(root, image = backgroundPicGraph)
@@ -50,7 +48,17 @@ def getSetTemp():
 def update():
 
 	count = 0
+	time_count = 0
+
+	graph_file_buffer = [None]*3		#initialize the output buffer
+	graph_file_buffer[1] = ','			#place comma for formatting
+
 	while True:
+
+
+		graph_file_buffer[0] = str(time_count)
+		time_count += 1							#keep track of the time to write to a file for graphing
+
 		line = arduinoSerialData.readline()
 		line = line.decode('utf-8')
 		global checkTemp
@@ -58,23 +66,45 @@ def update():
 			if getCurrentTemp() < getSetTemp():
 				playAlarm()
 				checkTemp = False
+
 		if '&' in line:
 			line = str(line)
 			line = line.replace("&","")
 			line = int(line)
 			print("Temperature is now", str(line) + ".")
 			root.update()
+
 		else:
 			#update graph
 			count += 1
-			update_graph(count)
 
 			#update the temperature display
 			line = line.replace('\n', '').replace('\r', '')
 			setCurrentTemp(float(line))
 			var.set(line + degreesText)
+
+			graph_file_buffer[2] = str(line)	#initialize buffer
+			write_to_file(graph_file_buffer)	#write the the output to a text file for graphing
+			clear_buffer(graph_file_buffer)		#clear the buffer
+
 			root.update()
 			sleep(1)
+
+def write_to_file(graph_file_buffer):
+	target = open('plot.txt', 'a')
+
+	output = ""
+	for i in graph_file_buffer:
+		output += i
+
+	target.write(output+'\n')
+	target.close()
+
+
+
+def clear_buffer(graph_file_buffer):
+	graph_file_buffer[0] = ""
+	graph_file_buffer[2] = ""
 
 def set_temperature():
 	global checkTemp
@@ -90,9 +120,7 @@ def playAlarm():
     play_obj = wave_obj.play()
     play_obj.wait_done()
 
-def update_graph(count):
-	graphlabel = Label(graph, text="graph text" + str(count))
-	graphlabel.pack()
+
 
 #background
 backgroundPic = PhotoImage(file = "images/mblue.gif")
@@ -121,6 +149,7 @@ entry.place(relx = .6, anchor = CENTER, y = 250)
 button = Button(root, text="Enter", command=set_temperature)
 button.configure(bg = 'black')
 button.place(relx = .5, anchor = CENTER, y = 300)
+
 
 root.after(1,update)
 root.mainloop()
