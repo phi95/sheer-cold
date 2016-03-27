@@ -35,6 +35,6 @@ void loop() {
     reader = "";
   };
   
-  Serial.println(thermocouple.readFahrenheit()-5);
+  Serial.println(thermocouple.readCelsius()-5);
   delay(1000);
 }
