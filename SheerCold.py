@@ -11,6 +11,7 @@ graphOn = False
 currentTemp = 0
 setTemp = 0
 checkTemp = False
+loop = True
 
 var = StringVar()
 degreesText = " F"
@@ -53,7 +54,7 @@ def update():
 	graph_file_buffer = [None]*3		#initialize the output buffer
 	graph_file_buffer[1] = ','			#place comma for formatting
 
-	while True:
+	while loop:
 
 
 		graph_file_buffer[0] = str(time_count)
@@ -120,6 +121,11 @@ def playAlarm():
     play_obj = wave_obj.play()
     play_obj.wait_done()
 
+def quit():
+	global loop
+	loop = False
+	sys.exit(0)
+
 
 
 #background
@@ -149,6 +155,10 @@ entry.place(relx = .6, anchor = CENTER, y = 250)
 button = Button(root, text="Enter", command=set_temperature)
 button.configure(bg = 'black')
 button.place(relx = .5, anchor = CENTER, y = 300)
+
+button2 = Button(root, text=" Quit  ", command=quit)
+button2.configure(bg = 'black')
+button2.place(relx = .70, anchor = CENTER, y = 300)
 
 
 root.after(1,update)
