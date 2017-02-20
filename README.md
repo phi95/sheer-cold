@@ -68,15 +68,15 @@ is running.
 
 ## Award
 We were awarded best hardware hack.
-![award](project-pictures/award.jpg)
+![award](project-pictures/award.JPG)
 
 ## The Process
 These are pictures of use tuning the machine
-![pic1](project-pictures/pic1.jpg)
-![pic2](project-pictures/pic2.jpg)
+![pic1](project-pictures/pic1.JPG)
+![pic2](project-pictures/pic2.JPG)
 
 Here we are taking a break at a local pho restaurant
-![pic3](project-pictures/pic3.jpg)
+![pic3](project-pictures/pic3.JPG)
 
 Here is the finish document ready to be presented
-![pic4](project-pictures/pic4.jpg)
+![pic4](project-pictures/pic4.JPG)
