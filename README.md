@@ -27,6 +27,12 @@ the Peltier module work is that it creates a temperature difference by transferr
 between two electrical junctions. When current flows through the junctions, heat is removed
 from one junction and transferred to the other junction, creating a cooling effect.
 
+These are the designs we came up with:
+![model1](project-pictures/model1.png)
+![model2](project-pictures/model2.png)
+![model3](project-pictures/model3.png)
+
+
 ## Materials
  - Peltier module (x2)
  - Power cords (x2)
@@ -42,7 +48,7 @@ from one junction and transferred to the other junction, creating a cooling effe
 
 ## How we did it?
 Before the hackathon, we 3D printed the aluminum encasement which perfectly fits a standard sized canned drink. The cold plate and the water block sandwiched the Peltier module, with the cold plate facing the aluminum casing. To manage overheating, we applied thermal paste between the Peltier module and the water block. The water block draws heat from the casing and deposits it towards the water loop, which utilizes a radiator to finally expel heat from the system. A 1000 watt power supply connects to the water cooling system, and must be manually switched on before the system may operate.
-The entire machine is located within a plexiglass base.
+We used acrylic glass to be a part of our machine's structure.
 
 We programmed an Arduino with sensors to read temperatures of the aluminum casing and broadcast it
 onto a computer software we wrote using Python. The Python program included logos and designs we
